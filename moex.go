@@ -34,7 +34,7 @@ func (cli *MoexClient) GetIssByDate(date time.Time) (*MoexHistoryData, error) {
 		return nil, fmt.Errorf("moex response body reading to byte error: %w", err)
 	}
 
-	moexData := &MoexHistoryData{}
+	moexData := &MoexHistoryData{Columns: make(map[int]string)}
 	if err = json.Unmarshal(b, moexData); err != nil {
 		return nil, fmt.Errorf("moex response parsing error: %w", err)
 	}

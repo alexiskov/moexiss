@@ -10,10 +10,6 @@ type (
 
 type (
 	MoexHistoryData struct {
-		Columns MoexColumnsData `json:"columns"`
-	}
-
-	MoexColumnsData struct {
-		Columns map[int]string
+		Columns map[int]string `json:"columns"`
 	}
 )
