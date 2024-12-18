@@ -14,6 +14,6 @@ type (
 	}
 
 	MoexColumnsData struct {
-		Columns []string
+		Columns map[int]string
 	}
 )
