@@ -14,7 +14,7 @@ func NewClient() *MoexClient {
 
 // Запрос к исс moex данных за указанную дату
 // Дату передаем аргументом
-func (cli *MoexClient) GetIssByDate(date time.Time) (*MoexHistoryData, error) {
+func (cli *MoexClient) GetIssByDate(date time.Time) (*MoexResponseData, error) {
 	req, err := http.NewRequest(http.MethodGet, "https://iss.moex.com/iss/history/engines/stock/markets/shares/boards/tqbr/securities.json?date="+date.Format("2006-01-02"), nil)
 	if err != nil {
 		return nil, fmt.Errorf("new request building error: %w", err)
@@ -34,8 +34,8 @@ func (cli *MoexClient) GetIssByDate(date time.Time) (*MoexHistoryData, error) {
 		return nil, fmt.Errorf("moex response body reading to byte error: %w", err)
 	}
 
-	moexData := &MoexHistoryData{Columns: make(map[int]string)}
-	if err = json.Unmarshal(b, moexData); err != nil {
+	moexData := &MoexResponseData{History: MoexHistoryData{make([]string, 0, 24)}}
+	if err = json.Unmarshal(b, &moexData); err != nil {
 		return nil, fmt.Errorf("moex response parsing error: %w", err)
 	}
 

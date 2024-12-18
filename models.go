@@ -9,7 +9,11 @@ type (
 )
 
 type (
+	MoexResponseData struct {
+		History MoexHistoryData `json:"history"`
+	}
+
 	MoexHistoryData struct {
-		Columns map[int]string `json:"columns"`
+		Columns []string `json:"columns"`
 	}
 )
