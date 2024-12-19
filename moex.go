@@ -34,6 +34,8 @@ func (cli *MoexClient) GetIssByDate(date time.Time) ([]StockData, error) {
 			return nil, fmt.Errorf("http response status code: %d", resp.StatusCode)
 		}
 
+		defer resp.Body.Close()
+
 		b, err := io.ReadAll(resp.Body)
 		if err != nil {
 			return nil, fmt.Errorf("moex response body reading to byte error: %w", err)
@@ -57,11 +59,13 @@ func (cli *MoexClient) GetIssByDate(date time.Time) ([]StockData, error) {
 			}
 			stockData = append(stockData, sd)
 		}
+
 	}
 
 	return stockData, nil
 }
 
+// Конвертер moex response data ([]any) ---> StockData{}
 func ConvertToStockData(md []any) (StockData, error) {
 	tradeDate, err := time.Parse("2006-01-02", md[1].(string))
 	if err != nil {
