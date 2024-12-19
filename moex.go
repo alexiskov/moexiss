@@ -15,7 +15,7 @@ func NewClient() *MoexClient {
 
 // Запрос к исс moex данных за указанную дату
 // Дату передаем аргументом
-func (cli *MoexClient) GetIssByDate(date time.Time) ([]StockData, error) {
+func (cli *MoexClient) GetStocksByDate(date time.Time) ([]StockData, error) {
 	stockData := []StockData{}
 
 	dataShift := ""
