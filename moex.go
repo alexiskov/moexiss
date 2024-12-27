@@ -15,7 +15,7 @@ func NewClient() *MoexClient {
 
 // Запрос к исс moex данных за указанную дату
 // Дату передаем аргументом
-func (cli *MoexClient) GetStocksByDate(date time.Time) ([]StockData, error) {
+func (cli *MoexClient) GetStocksByDate(date time.Time, sleepDurationBetweenPageRequest time.Duration) ([]StockData, error) {
 	stockData := []StockData{}
 
 	dataShift := ""
@@ -59,7 +59,7 @@ func (cli *MoexClient) GetStocksByDate(date time.Time) ([]StockData, error) {
 			}
 			stockData = append(stockData, sd)
 		}
-
+		time.Sleep(sleepDurationBetweenPageRequest)
 	}
 
 	return stockData, nil
