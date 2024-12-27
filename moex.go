@@ -15,6 +15,7 @@ func NewClient() *MoexClient {
 
 // Запрос к исс moex данных за указанную дату
 // Дату передаем аргументом
+// Вторым аргументом передаем длительность паузы между запросами страниц (если есть ограничение на количество запросов на какой-либо отрезок времени)
 func (cli *MoexClient) GetStocksByDate(date time.Time, sleepDurationBetweenPageRequest time.Duration) ([]StockData, error) {
 	stockData := []StockData{}
 
@@ -43,7 +44,7 @@ func (cli *MoexClient) GetStocksByDate(date time.Time, sleepDurationBetweenPageR
 
 		moexData := &MoexResponseData{History: MoexHistoryData{Columns: make([]string, 0, 24), Data: make([][]any, 0, 99)}}
 		if err = json.Unmarshal(b, &moexData); err != nil {
-			return nil, fmt.Errorf("moex response parsing error: %w", err)
+			return nil, fmt.Errorf("moex response json unmarshaling error: %w", err)
 		}
 
 		if moexData.HistoryCursor.Data[0][0] < moexData.HistoryCursor.Data[0][1] {
